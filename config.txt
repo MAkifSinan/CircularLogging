@@ -1,0 +1,22 @@
+# Bu bir örnek yapılandırma dosyasıdır
+# Yorum satırları '#' işaretiyle başlar
+
+# Anahtar-değer çiftleri
+UseLogThread = 1
+# thread kullanılmayan versiyon için değer 0 olacaktır
+MaxLogSize= 7
+OutputDest = None
+# Destination "None" olması durumunda sistem calıştığı klasöre dosyaları yazacaktır.
+
+
+LoggingCircle = S
+LoggingFrequency = 10
+# "S" saniye cinsinden veri girişi sağlar. 
+# "Min" dakika cinsinden veri girişi sağlar. 
+# "H" Saat (hour)  cinsinden veri girişi sağlar. 
+# "D" Gün (Day) cinsinden veri girişi sağlar. 
+# "M" Ay (Month) cinsinden veri girişi sağlar. 
+# "Y" Yıl (year) cinsinden veri girişi sağlar. 
+# ornek olarak eğer saatte (Hour) 2 kere log tutulmasını istiyorsanız , 
+# LoggingCircle = H ; LoggingFrequency = 2 şeklinde 
+# belirtebilirsiniz
