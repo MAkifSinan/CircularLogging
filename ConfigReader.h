@@ -26,7 +26,7 @@ private:
 * @brief Constructor for ConfigReader class.
 * @param No parameter needs for manuel config file name. After this constructor uses driver code MUST use setConfigFileName func to provide filename.
 */
-    ConfigReader();    
+    ConfigReader(void);    
     /**
 * @brief ConfigReader for ConfigReader class.
 * @param This constructor creates object within config file. 

@@ -2,14 +2,13 @@
 
 
 ConfigReader::ConfigReader() {
-    ConfigFileStatus = false;
 
 }
 
 ConfigReader::ConfigReader(std::string config_file_name) {
-    ConfigFileStatus = false;
     setConfigFileName(config_file_name);
     readConfigFile(getConfigFileName());
+    
     if (ConfigFileStatus == false)
         throw std::runtime_error("config file error");
 }
@@ -22,6 +21,7 @@ bool ConfigReader::readConfigFile(const std::string& filename) {
     std::ifstream configFile(filename);
     if (!configFile.is_open()) {
         std::cerr << "Error: Unable to open config file: " << filename << std::endl;
+        ConfigFileStatus = false;
         return false;
     }
     std::string line;
@@ -41,6 +41,7 @@ bool ConfigReader::readConfigFile(const std::string& filename) {
         }
     }
     configFile.close();
+    ConfigFileStatus = true;
     return true;
     
 }
