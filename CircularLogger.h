@@ -4,9 +4,14 @@
 #include <string>
 #include <vector>
 #include <chrono>
+
 #include <thread>
 #include <mutex>
+
+#include <ctime>
+
 #include "ConfigReader.h"
+
 class CircularLogger
 {
 
@@ -17,19 +22,21 @@ public:
     ~CircularLogger();
     void add_data(const std::string& data);
     void print_settings(void)const;
+    void operator<(std::string str);
 
 protected:
     ConfigReader Reader;
 
 private:
+    std::string get_current_time();
     void set_logging_settings(std::map<std::string, std::string> a);
     std::string getValue(const std::string& key) const;
-
+    int check_config_data(int);
+    std::string check_config_data(std::string);
     void start_background_thread();
     void stop_background_thread();
     void write_to_file();
-    int check_config_data(int);
-    std::string check_config_data(std::string);
+
 
     std::vector<std::string> LogFiles; // to cehck total og files.
     std::vector<std::string> LogsDatas; // to hold data which want to save

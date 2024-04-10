@@ -14,7 +14,7 @@ CircularLogger::CircularLogger(const std::string& base_filename)
 CircularLogger::CircularLogger(  const std::string& base_filename,  const ConfigReader& a):
     base_filename(base_filename), Reader(a)
 {
-    std::cout << " CircularLogger contructor with config file \n";
+    //std::cout << " CircularLogger contructor with config file \n";
     set_logging_settings(Reader.getConfigs());
     
     //Reader.printConfig();
@@ -28,9 +28,30 @@ void CircularLogger::add_data(const std::string& data) {
 
 
 }
+void CircularLogger::operator<(std::string str)  {
+    std::string current_time = get_current_time();
+    std::string total_info= "Log added at: " + current_time + "and info is: " +str ;
+    LogsDatas.push_back(total_info);
+}
 
+std::string CircularLogger::get_current_time()
+{
+    // Þu anki zamaný al
+    std::time_t now;
+    std::time(&now);
 
-void CircularLogger::set_logging_settings(std::map<std::string, std::string> a) 
+    // Yerel saat bilgilerini doldur
+    std::tm time_info;
+    localtime_s(&time_info, &now);
+
+    // Zamaný bir stringe dönüþtür
+    char buffer[80];
+    std::strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", &time_info);
+
+    return std::string(buffer);
+}
+
+void CircularLogger::set_logging_settings(std::map<std::string, std::string> a)
 {
     std::map<std::string, std::string>::iterator it;
     for (it = a.begin(); it != a.end(); ++it) {
@@ -49,8 +70,6 @@ void CircularLogger::set_logging_settings(std::map<std::string, std::string> a)
     use_thread_for_Log = std::stoi(check_config_data(getValue("UseLogThread")));
      */
 
-    int asa=  std::stoi(check_config_data(getValue("UseLogThread")));
-    std::cout << "a type is :" << typeid(asa).name() << ";  a is :" << asa <<"\n";
     verified_settings["max_size"]=(check_config_data(getValue("MaxLogSize")));
 
     verified_settings["logging_frequency"]= (check_config_data(getValue("LoggingFrequency")));
@@ -83,7 +102,7 @@ std::string CircularLogger::getValue(const std::string& key) const
 }
 
 void CircularLogger::start_background_thread() {
-
+      
 }
 
 void CircularLogger::stop_background_thread() {
@@ -109,8 +128,6 @@ int CircularLogger::check_config_data(int b)
 
 std::string CircularLogger::check_config_data(std::string a)
 {
-    std::cout << "******inside of check_config_data***** :::";
-    std::cout << a << "\n";
     if (a.empty())
         return "-999";
     else
