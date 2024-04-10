@@ -4,7 +4,7 @@
 #include <iostream>
 #include <thread>
 #include"ConfigReader.h"
-#include"CircularLoggerger.h"
+#include"CircularLogger.h"
 void yazdir(std::string a)
 {
 
