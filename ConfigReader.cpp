@@ -38,6 +38,7 @@ bool ConfigReader::readConfigFile(const std::string& filename) {
             value.erase(value.find_last_not_of(" \t") + 1);
             // Anahtar-deðer çiftini ekle
             configMap[key] = value;
+            //std::cout << "configMap["<<key << "] :" << configMap[key] << "\n"; // 
         }
     }
     configFile.close();
@@ -69,6 +70,6 @@ std::map<std::string, std::string> ConfigReader::getConfigs(void) const {
 
 void  ConfigReader::printConfig() const {
     for (const auto& pair : configMap) {
-        std::cout << pair.first << " = " << pair.second << std::endl;
+        std::cout << pair.first << " = " <<pair.second << std::endl;
     }
 }

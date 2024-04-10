@@ -127,12 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CircularLog.cpp" />
+    <ClCompile Include="CircularLogger.cpp" />
     <ClCompile Include="CircularLogging.cpp" />
     <ClCompile Include="ConfigReader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CircularLog.h" />
+    <ClInclude Include="CircularLogger.h" />
     <ClInclude Include="ConfigReader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

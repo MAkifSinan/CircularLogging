@@ -1,10 +1,10 @@
-﻿// CircularLogging.cpp : Bu dosya 'main' işlevi içeriyor. Program yürütme orada başlayıp biter.
+﻿// CircularLoggerging.cpp : Bu dosya 'main' işlevi içeriyor. Program yürütme orada başlayıp biter.
 //
 #include <exception>
 #include <iostream>
 #include <thread>
 #include"ConfigReader.h"
-#include"CircularLog.h"
+#include"CircularLoggerger.h"
 void yazdir(std::string a)
 {
 
@@ -22,9 +22,9 @@ int main()
         std::cout << " ***************************\n" << std::endl;
         //config.printConfig();
         
-        CircularLog logger(10, "log", 6 , config); // Maksimum 10 log saklayacak şekilde ayarlayın, 60 saniyede bir dosyaya yaz
+        CircularLogger logger("log", config); // Maksimum 10 log saklayacak şekilde ayarlayın, 60 saniyede bir dosyaya yaz
 
-
+        logger.print_settings();
     }
 
     catch (std::exception& e) {

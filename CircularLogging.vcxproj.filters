@@ -18,7 +18,7 @@
     <ClCompile Include="CircularLogging.cpp">
       <Filter>Kaynak Dosyalar</Filter>
     </ClCompile>
-    <ClCompile Include="CircularLog.cpp">
+    <ClCompile Include="CircularLogger.cpp">
       <Filter>Kaynak Dosyalar</Filter>
     </ClCompile>
     <ClCompile Include="ConfigReader.cpp">
@@ -26,7 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CircularLog.h">
+    <ClInclude Include="CircularLogger.h">
       <Filter>Üst Bilgi Dosyaları</Filter>
     </ClInclude>
     <ClInclude Include="ConfigReader.h">
