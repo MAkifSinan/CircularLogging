@@ -1,29 +1,29 @@
 #pragma once
+#define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 #include <iostream>
 #include <fstream>
+#include <experimental/filesystem>
+
 #include <string>
 #include <vector>
-#include <chrono>
-
-#include <thread>
-#include <mutex>
 
 #include <ctime>
 
 #include "ConfigReader.h"
 
+namespace fs = std::experimental::filesystem;
+
+
 class CircularLogger
 {
-
 public:
     CircularLogger( const std::string& base_filename );
-
     CircularLogger(const std::string& base_filename,const ConfigReader&);
     ~CircularLogger();
     void add_data(const std::string& data);
     void print_settings(void)const;
     void operator<(std::string str);
-
+    int write_to_file();
 protected:
     ConfigReader Reader;
 
@@ -35,8 +35,9 @@ private:
     std::string check_config_data(std::string);
     void start_background_thread();
     void stop_background_thread();
-    void write_to_file();
 
+    bool file_exists(const std::string& filename);
+    bool create_directory(const std::string& path);
 
     std::vector<std::string> LogFiles; // to cehck total og files.
     std::vector<std::string> LogsDatas; // to hold data which want to save

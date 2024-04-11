@@ -28,6 +28,7 @@ void CircularLogger::add_data(const std::string& data) {
 
 
 }
+
 void CircularLogger::operator<(std::string str)  {
     std::string current_time = get_current_time();
     std::string total_info= "Log added at: " + current_time + "and info is: " +str ;
@@ -109,13 +110,59 @@ void CircularLogger::stop_background_thread() {
 
 }
 
-void CircularLogger::write_to_file() {
+int CircularLogger::write_to_file() {
 
 
+    std::string folder_name = getValue("OutputDest");  // foldername yerine folder path daha doðru ayrýca " ve \ düzenlemei yapýalbilinir
+            
+    std::string filename = folder_name + "/" + base_filename+".txt"; // basefilename de .txt yok sonradan eklenir yada validate edilebilir
+    std::cout << "filename:" << filename<<"\n";
+    // Dosyanýn var olup olmadýðýný kontrol edin
+    if (!file_exists(folder_name)) {
+        // Klasör yoksa oluþturun
+        if (!create_directory(folder_name)) {
+            std::cerr << "Klasör oluþturulamadý!" << std::endl;
+            return 1; // Baþarýsýz çýkýþ
+        }
+    }
+
+    // Dosyayý açýn
+    std::ofstream file(filename);
+
+    // Dosya açýlma kontrolü yapýn
+    if (!file.is_open()) {
+        std::cerr << "Dosya açýlamadý!" << std::endl;
+        return 1; // Baþarýsýz çýkýþ
+    }
+
+    // Dosyaya yazýlacak veriyi belirleyin
+    std::string data = "Bu bir örnek metin dosyasýdýr.";
+
+    // Veriyi dosyaya yazýn
+    file << data;
+
+    // Dosyayý kapatýn
+    file.close();
+
+    std::cout << "Veri baþarýyla dosyaya yazýldý: " << filename << std::endl;
 
 
+}
 
-    
+bool CircularLogger::create_directory(const std::string& path)
+{
+    try {
+        fs::create_directories(path);
+        return true;
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Klasör oluþturulamadý: " << e.what() << std::endl;
+        return false;
+    } 
+}
+
+bool CircularLogger::file_exists(const std::string& filename) {
+    return fs::exists(filename);
 }
 
 int CircularLogger::check_config_data(int b)

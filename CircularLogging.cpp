@@ -22,10 +22,11 @@ int main()
         std::cout << " ***************************\n" << std::endl;
         //config.printConfig();
         
-        CircularLogger logger("log", config); // Maksimum 10 log saklayacak şekilde ayarlayın, 60 saniyede bir dosyaya yaz
+        CircularLogger logger("log2", config); // Maksimum 10 log saklayacak şekilde ayarlayın, 60 saniyede bir dosyaya yaz
 
         //logger.print_settings();
         logger<"deneme";
+        logger.write_to_file();
     }
 
     catch (std::exception& e) {
