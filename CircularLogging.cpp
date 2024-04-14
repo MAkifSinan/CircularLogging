@@ -25,8 +25,11 @@ int main()
         CircularLogger logger("log2", config); // Maksimum 10 log saklayacak şekilde ayarlayın, 60 saniyede bir dosyaya yaz
 
         //logger.print_settings();
-        logger<"deneme";
-        logger.write_to_file();
+        logger<"deneme+thread";
+
+        logger.start_background_thread();
+        
+        logger.stop_background_thread();
     }
 
     catch (std::exception& e) {

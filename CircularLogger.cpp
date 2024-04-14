@@ -12,7 +12,7 @@ CircularLogger::CircularLogger(const std::string& base_filename)
 }
 
 CircularLogger::CircularLogger(  const std::string& base_filename,  const ConfigReader& a):
-    base_filename(base_filename), Reader(a)
+    base_filename(base_filename), Reader(a) , stop_thread(false)
 {
     //std::cout << " CircularLogger contructor with config file \n";
     set_logging_settings(Reader.getConfigs());
@@ -31,7 +31,7 @@ void CircularLogger::add_data(const std::string& data) {
 
 void CircularLogger::operator<(std::string str)  {
     std::string current_time = get_current_time();
-    std::string total_info= "Log added at: " + current_time + "and info is: " +str ;
+    std::string total_info= "Log added at:" + current_time + "\tInfo:" +str ;
     LogsDatas.push_back(total_info);
 }
 
@@ -103,19 +103,50 @@ std::string CircularLogger::getValue(const std::string& key) const
 }
 
 void CircularLogger::start_background_thread() {
-      
+    // Baþlatýlmýþsa, iþ parçacýðýný yeniden baþlatmayýn
+    if (background_thread.joinable()) {
+        std::cerr << "Arka plan iþ parçacýðý zaten baþlatýldý!" << std::endl;
+        return;
+    }
+    stop_thread = false;
+    // Ýþ parçacýðýný baþlat
+    background_thread = std::thread([this] {
+        // Durdurulana kadar çalýþ
+        int a = 0;
+        while (true) {
+            // Loglama iþlemini yapabilirsiniz
+            // Örneðin:
+            write_to_file(a);
+            std::this_thread::sleep_for(std::chrono::seconds(5)); // Belirli bir süre bekleyin
+            a++;
+        }
+        });
 }
 
 void CircularLogger::stop_background_thread() {
+    // Ýþ parçacýðý baþlatýlmamýþsa, iþlem yapma
+    if (!background_thread.joinable()) {
+        std::cerr << "Arka plan iþ parçacýðý zaten baþlatýlmadý!" << std::endl;
+        return;
+    }
 
+    // Ýþ parçacýðýný durdur
+    stop_thread = true;
+
+    // Ýþ parçacýðýnýn tamamlanmasýný bekle
+    if (background_thread.joinable())
+        background_thread.join();
+
+    // Ýþ parçacýðý durdurulduktan sonra bayraðý sýfýrla
+    stop_thread = false;
 }
 
-int CircularLogger::write_to_file() {
+int CircularLogger::write_to_file(int a) {
 
 
     std::string folder_name = getValue("OutputDest");  // foldername yerine folder path daha doðru ayrýca " ve \ düzenlemei yapýalbilinir
             
-    std::string filename = folder_name + "/" + base_filename+".txt"; // basefilename de .txt yok sonradan eklenir yada validate edilebilir
+    std::string filename = folder_name + "/" + base_filename+ std::to_string(a) + ".txt"; // basefilename de .txt yok sonradan eklenir yada validate edilebilir
     std::cout << "filename:" << filename<<"\n";
     // Dosyanýn var olup olmadýðýný kontrol edin
     if (!file_exists(folder_name)) {
@@ -136,11 +167,14 @@ int CircularLogger::write_to_file() {
     }
 
     // Dosyaya yazýlacak veriyi belirleyin
-    std::string data = "Bu bir örnek metin dosyasýdýr.";
+    std::string firstline ="*****************************\nFile name :"+base_filename+"\nStartDate: "
+        + get_current_time() + "\n";
 
     // Veriyi dosyaya yazýn
-    file << data;
-
+    file << firstline;
+    for (const auto& data : LogsDatas) {
+        file << "Date:" << "----" << data<<"\n";
+    }
     // Dosyayý kapatýn
     file.close();
 
