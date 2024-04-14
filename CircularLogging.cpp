@@ -27,6 +27,7 @@ int main()
         //logger.print_settings();
         logger<"deneme+thread";
 
+
         logger.start_background_thread();
         
         logger.stop_background_thread();
