@@ -4,7 +4,7 @@ UseLogThread = 1
 LoggingCircle = S
 LoggingFrequency = 10
 MaxLogSize= 7
-OutputDest = C:/Users/sinan/Desktop/dnemee/uzak_klasor
+OutputDest = C:/Users/sinan/source/repos/MAkifSinan/CircularLogging/logs
 
 
 # Anahtar-değer çiftleri
